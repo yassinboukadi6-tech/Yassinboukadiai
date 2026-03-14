@@ -1,2 +1,51 @@
-# Yassinboukadiai
-Ai of yassinboukadi
+# Universal AI Assistant
+# by Yassin
+
+from transformers import pipeline
+
+# تحميل النماذج
+qa = pipeline("question-answering")
+summarizer = pipeline("summarization")
+translator = pipeline("translation_en_to_fr")
+sentiment = pipeline("sentiment-analysis")
+
+def ask_question(context, question):
+    result = qa(question=question, context=context)
+    return result["answer"]
+
+def summarize(text):
+    result = summarizer(text, max_length=60, min_length=20, do_sample=False)
+    return result[0]["summary_text"]
+
+def translate(text):
+    result = translator(text)
+    return result[0]["translation_text"]
+
+def analyze_sentiment(text):
+    result = sentiment(text)
+    return result[0]["label"]
+
+print("Universal AI Assistant")
+print("1 - Ask question")
+print("2 - Summarize text")
+print("3 - Translate text")
+print("4 - Sentiment analysis")
+
+choice = input("Choose option: ")
+
+if choice == "1":
+    context = input("Enter context text: ")
+    question = input("Enter question: ")
+    print("Answer:", ask_question(context, question))
+
+elif choice == "2":
+    text = input("Enter text to summarize: ")
+    print("Summary:", summarize(text))
+
+elif choice == "3":
+    text = input("Enter text to translate: ")
+    print("Translation:", translate(text))
+
+elif choice == "4":
+    text = input("Enter text: ")
+    print("Sentiment:", analyze_sentiment(text))
